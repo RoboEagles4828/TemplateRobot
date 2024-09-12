@@ -1,0 +1,55 @@
+#!/usr/bin/bash
+# IMAGE_NAME="ghcr.io/roboeagles4828/gazebo:2024.8.31"
+IMAGE_NAME="osrf/ros:humble-simulation"
+CONTAINTER_NAME="gazebo"
+DEFAULT_CMD="ign gazebo"
+CMD=${@:-$DEFAULT_CMD}
+
+if [[ "$1" == "stop" ]]; then
+    docker stop $CONTAINTER_NAME > /dev/null 2>&1
+    exit 0
+fi
+
+if [[ "$1" == "rm" ]]; then
+    docker stop $CONTAINTER_NAME > /dev/null 2>&1
+    docker rm $CONTAINTER_NAME > /dev/null 2>&1
+    exit 0
+fi
+
+launch_gazebo() {
+    docker run -d -t \
+    --name $CONTAINTER_NAME \
+    --entrypoint "" \
+    --gpus 0 \
+    --network=host -P \
+    --privileged \
+    -e "NVIDIA_VISIBLE_DEVICES=$NVIDIA_VISIBLE_DEVICES" \
+    -e "NVIDIA_DRIVER_CAPABILITIES=$NVIDIA_DRIVER_CAPABILITIES" \
+    -e "XAUTHORITY=$XAUTHORITY" \
+    -e "DISPLAY=:0" \
+    -e "ROS_NAMESPACE=$ROS_NAMESPACE" \
+    -e "FASTRTPS_DEFAULT_PROFILES_FILE=/isaac-sim/ros2_workspace/fastdds.xml" \
+    -v /var/run/docker.sock:/var/run/docker.sock:rw \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    -v /tmp/.docker.xauth:/tmp/.docker.xauth:rw \
+    $IMAGE_NAME sleep infinity
+}
+
+# Update the urdf file before launching
+if [ -d /workspaces/REPO_NAME/install ]; then
+    source /workspaces/REPO_NAME/install/setup.bash
+    xacro /workspaces/REPO_NAME/src/ROBOTNAME_description/urdf/robots/rift.urdf.xacro > /workspaces/REPO_NAME/src/ROBOTNAME_description/urdf/ROBOTNAME.urdf namespace:=$ROS_NAMESPACE
+fi
+
+# Check if an gazebo container already exists
+if [ $( docker ps -a | grep $CONTAINTER_NAME | wc -l ) -gt 0 ]; then
+    status=$( docker container inspect -f '{{.State.Running}}' $CONTAINTER_NAME )
+    if [[ "$status" == "false" ]]; then
+        docker start $CONTAINTER_NAME > /dev/null 2>&1
+    fi
+    docker exec -it -e "DISPLAY=$DISPLAY" $CONTAINTER_NAME $CMD
+else
+    echo "Gazebo container does not exist, creating...."
+    launch_gazebo
+    docker exec -it $CONTAINTER_NAME $CMD
+fi
