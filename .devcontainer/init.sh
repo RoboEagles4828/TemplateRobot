@@ -3,7 +3,7 @@
 docker pull ghcr.io/roboeagles4828/developer-environment:10
 
 # Create the directory where isaac sim will save to.
-mkdir -p ~/docker/isaac-sim
+# mkdir -p ~/docker/isaac-sim
 mkdir -p ~/docker/vscode
 
 # Find nvidia and vulkan driver config files

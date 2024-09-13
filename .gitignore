@@ -1,5 +1,6 @@
 .jj
 .env
+.vscode
 .devcontainer/.env
 install
 build

@@ -8,15 +8,17 @@ NC='\033[0m'
 sudo chmod a+rw /dev/input/js*
 source /opt/ros/humble/setup.bash
 
-echo -e "\n----JOYSTICKS CONNECTED----"
-ros2 run joy joy_enumerate_devices
+# echo -e "\n----JOYSTICKS CONNECTED----"
+# ros2 run joy joy_enumerate_devices
 
-echo -e "\n----COMMANDS----"
-echo "launch          : Launch sim teleop code"
-echo "launch isaac    : Launch sim teleop code"
-echo "launch real     : Launch real teleop code"
-echo "launch test_hw  : Launch rviz with teleop code"
-echo "restart-ros2    : restart ros2 daemon"
+# echo -e "\n----COMMANDS----"
+# echo "launch          : Launch sim teleop code"
+# echo "launch isaac    : Launch sim teleop code"
+# echo "launch real     : Launch real teleop code"
+# echo "launch test_hw  : Launch rviz with teleop code"
+# echo "restart-ros2    : restart ros2 daemon"
+
+echo -e "\n${ORANGE}===THIS IS IN DEVELOPMENT. ISSUES MAY ARISE===${NC}"
 
 echo -e "\n----Build Command----"
 echo -e "ctrl + shift + b  : Build"
