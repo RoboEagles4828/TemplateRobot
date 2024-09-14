@@ -6,3 +6,5 @@ install
 build
 log
 rio/simgui*.json
+rio/ctre_sim
+__pycache__

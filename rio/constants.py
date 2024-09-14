@@ -10,9 +10,7 @@ from lib.util.COTSTalonFXSwerveConstants import COTSTalonFXSwerveConstants
 from lib.util.SwerveModuleConstants import SwerveModuleConstants
 import math
 from enum import Enum
-from pytreemap import TreeMap
 
-from lib.util.InterpolatingTreeMap import InterpolatingTreeMap
 from wpimath.units import rotationsToRadians
 
 from pathplannerlib.auto import HolonomicPathFollowerConfig

@@ -1,11 +1,7 @@
-from commands2 import Command, DeferredCommand, InstantCommand, SequentialCommandGroup
+from commands2 import DeferredCommand, InstantCommand, SequentialCommandGroup
 
 from subsystems.Vision import Vision
 from subsystems.Swerve import Swerve
-
-from wpilib import SmartDashboard
-
-from photonlibpy.photonTrackedTarget import PhotonTrackedTarget
 
 from pathplannerlib.auto import AutoBuilder
 from pathplannerlib.path import PathConstraints

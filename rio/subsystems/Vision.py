@@ -23,7 +23,6 @@ class Vision(Subsystem):
     instance = None
 
     def __init__(self):
-
         try:
             self.camera : PhotonCamera | None = PhotonCamera("camera1")
             self.camera2 : PhotonCamera | None = PhotonCamera("camera2")
