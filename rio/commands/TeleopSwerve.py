@@ -1,4 +1,4 @@
-from constants import Constants
+from Constants import Constants
 from subsystems.Swerve import Swerve
 
 from wpimath.geometry import Translation2d
@@ -42,8 +42,6 @@ class TeleopSwerve(Command):
 
     def execute(self):
         # Get Values, Deadband
-        # translationVal = math.copysign(self.translationSup()**2, self.translationSup())
-        # strafeVal = math.copysign(self.strafeSup()**2, self.strafeSup())
         translationVal = self.translationSup()
         strafeVal = self.strafeSup()
         rotationVal = self.getRotationValue()
@@ -51,7 +49,7 @@ class TeleopSwerve(Command):
         # Apply slowmode
         slow = self.slowSup()
 
-        # TODO: REMOVE THIS IN PRODUCTION. THIS IS TO SAVE THE ROBOT DURING TESTING.
+        # Prevent negative slowmode
         if slow < 0:
             print("SLOWMODE ERROR: SLOW OFFSET IS NEGATIVE\nCheck that your controller axis mapping is correct and goes between [0, 1]!")
             slow = 0
@@ -70,17 +68,3 @@ class TeleopSwerve(Command):
 
     def getRotationValue(self):
         return self.rotationSup() * Constants.Swerve.maxAngularVelocity
-
-        # rotation = 0.0
-
-        #heading correction
-        # if abs(self.rotationSup()) > 0.0:
-        #     # heading correction is disabled, record last heading
-        #     self.lastHeading = self.s_Swerve.getHeading().radians()
-        #     rotation = self.rotationSup() * Constants.Swerve.maxAngularVelocity
-        # elif abs(self.translationSup()) > 0.0 or abs(self.strafeSup()) > 0.0:
-        #     # heading correction is enabled, calculate correction
-        #     rotation = -self.headingPID.calculate(self.s_Swerve.getHeading().radians(), self.lastHeading)
-            
-
-        # return rotation

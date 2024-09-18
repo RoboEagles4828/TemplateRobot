@@ -4,7 +4,7 @@ from phoenix6.configs import TalonFXConfiguration
 from phoenix6.signals.spn_enums import AbsoluteSensorRangeValue
 from phoenix6.signals import InvertedValue
 
-from constants import Constants
+from Constants import Constants
 
 from copy import deepcopy
 

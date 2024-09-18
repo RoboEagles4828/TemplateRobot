@@ -6,7 +6,7 @@ from wpimath.geometry import Rotation2d
 from wpimath.kinematics import SwerveModuleState, SwerveModulePosition
 from lib.mathlib.conversions import Conversions
 from lib.util.SwerveModuleConstants import SwerveModuleConstants
-from constants import Constants
+from Constants import Constants
 from CTREConfigs import CTREConfigs
 from phoenix6.configs import CANcoderConfiguration
 from phoenix6.configs import TalonFXConfiguration 

@@ -11,7 +11,7 @@ from wpimath.geometry import Pose2d, Transform2d, Transform3d, Pose3d, Rotation2
 
 import wpimath.units as Units
 
-from constants import Constants
+from Constants import Constants
 
 from wpilib import SmartDashboard, DriverStation
 

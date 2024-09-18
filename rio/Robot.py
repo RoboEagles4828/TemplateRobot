@@ -2,8 +2,8 @@ from wpilib import TimedRobot
 from commands2 import Command
 from commands2 import CommandScheduler
 from CTREConfigs import CTREConfigs
-from constants import Constants
-from robot_container import RobotContainer
+from Constants import Constants
+from rio.RobotContainer import RobotContainer
 from wpimath.geometry import Rotation2d
 
 from wpilib.shuffleboard import ShuffleboardTab
@@ -18,38 +18,38 @@ class Robot(TimedRobot):
   teleop_tab: ShuffleboardTab
 
   def robotInit(self):
-    # Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    # autonomous chooser on the dashboard.
+    """ Instantiate our `RobotContainer`.  
+    This will perform all button bindings and put the auton chooser on the dashboard
+    """
     # wpilib.CameraServer.launch()
     self.m_robotContainer = RobotContainer()
     CommandScheduler.getInstance().setPeriod(0.02)
 
   def robotPeriodic(self):
-    # Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    # commands, running already-scheduled commands, removing finished or interrupted commands,
-    # and running subsystem periodic() methods.  This must be called from the robot's periodic
-    # block in order for anything in the Command-based framework to work.
+    """ Runs the `CommandScheduler`.  
+    This is responsible for polling buttons, adding newly-scheduled
+    commands, running already-scheduled commands, removing finished or interrupted commands,
+    and running subsystem `periodic()` methods.  This must be called from the robot's periodic
+    block in order for anything in the Command-based framework to work.
+    """
     CommandScheduler.getInstance().run()
 
   def autonomousInit(self):
-    # self.m_robotContainer.s_Shooter.setDefaultCommand(self.m_robotContainer.s_Shooter.idle())
-
+    """Initialize autonomous code.  
+    Schedules the auton to run if chosen on the auton selector.
+    """
     m_autonomousCommand: Command = self.m_robotContainer.getAutonomousCommand()
 
-    # schedule the autonomous command (example)
     if m_autonomousCommand != None:
       m_autonomousCommand.schedule()
 
   def teleopInit(self):
-    # This makes sure that the autonomous stops running when
-    # teleop starts running. If you want the autonomous to
-    # continue until interrupted by another command, remove
-    # this line or comment it out.
-    # flip heading
+    # Flip heading
     if DriverStation.getAlliance() == DriverStation.Alliance.kRed:
       self.m_robotContainer.s_Swerve.setHeading(self.m_robotContainer.s_Swerve.getHeading().rotateBy(Rotation2d.fromDegrees(180.0)))
 
-
+    # Cancels auton when teleop starts.
+    # If you don't want to do this, add more logic here
     if self.m_autonomousCommand is not None:
       self.m_autonomousCommand.cancel()
 

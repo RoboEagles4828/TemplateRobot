@@ -7,7 +7,7 @@ from CTREConfigs import CTREConfigs
 import math
 
 from wpimath.geometry import *
-from constants import Constants
+from Constants import Constants
 
 from commands.TeleopSwerve import TeleopSwerve
 
@@ -84,13 +84,13 @@ class RobotContainer:
         else:
             return DriverStation.getAlliance().name
 
-    """
-     * Use this method to define your button->command mappings. Buttons can be created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-    """
     def configureButtonBindings(self):
+        """
+        Use this method to define your button->command mappings. Buttons can be created by
+        instantiating a {@link GenericHID} or one of its subclasses ({@link
+        * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+        * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+        """
         translation = lambda: -applyDeadband(self.driver.getRawAxis(self.translationAxis), 0.1)
         strafe = lambda: -applyDeadband(self.driver.getRawAxis(self.strafeAxis), 0.1)
         rotation = lambda: applyDeadband(self.driver.getRawAxis(self.rotationAxis), 0.1)

@@ -1,4 +1,4 @@
-from constants import Constants
+from Constants import Constants
 from subsystems.Swerve import Swerve
 
 from wpimath.controller import PIDController
@@ -15,7 +15,7 @@ from commands2 import SwerveControllerCommand
 
 import math as Math
 
-class exampleAuto:
+class ExampleAuto:
     def __init__(self, s_Swerve: Swerve):
         config = \
             TrajectoryConfig(

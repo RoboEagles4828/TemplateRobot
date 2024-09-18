@@ -5,11 +5,10 @@ from wpimath.geometry import Rotation2d
 from wpimath.geometry import Translation2d
 from wpimath.kinematics import SwerveDrive4Kinematics
 from wpimath.trajectory import TrapezoidProfile, TrapezoidProfileRadians
-import lib.mathlib.units as Units
+import lib.mathlib.Units as Units
 from lib.util.COTSTalonFXSwerveConstants import COTSTalonFXSwerveConstants
 from lib.util.SwerveModuleConstants import SwerveModuleConstants
 import math
-from enum import Enum
 
 from wpimath.units import rotationsToRadians
 

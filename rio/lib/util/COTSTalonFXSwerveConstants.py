@@ -2,7 +2,7 @@ from phoenix6.signals import InvertedValue;
 from phoenix6.signals import SensorDirectionValue;
 import math
 
-import lib.mathlib.units as Units
+import lib.mathlib.Units as Units
 
 class COTSTalonFXSwerveConstants:
     wheelDiameter: float
