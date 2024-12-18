@@ -4,7 +4,7 @@ from phoenix6.hardware import CANcoder, TalonFX
 from wpimath.controller import SimpleMotorFeedforwardMeters
 from wpimath.geometry import Rotation2d
 from wpimath.kinematics import SwerveModuleState, SwerveModulePosition
-from lib.mathlib.conversions import Conversions
+from lib.mathlib.Conversions import Conversions
 from lib.util.SwerveModuleConstants import SwerveModuleConstants
 from Constants import Constants
 from CTREConfigs import CTREConfigs

@@ -96,7 +96,6 @@ class RobotContainer:
         rotation = lambda: applyDeadband(self.driver.getRawAxis(self.rotationAxis), 0.1)
         robotcentric = lambda: applyDeadband(self.robotCentric_value, 0.1)
         slow = lambda: applyDeadband(self.driver.getRawAxis(self.slowAxis), 0.1)
-        # slow = lambda: 0.0
 
         self.s_Swerve.setDefaultCommand(
             TeleopSwerve(

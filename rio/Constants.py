@@ -22,7 +22,7 @@ class Constants:
     class Swerve:
         navxID = 0
 
-        chosenModule = COTSTalonFXSwerveConstants.MK4i.Falcon500(COTSTalonFXSwerveConstants.MK4i.driveRatios.L2)
+        chosenModule = COTSTalonFXSwerveConstants.MK4i.KrakenX60(COTSTalonFXSwerveConstants.MK4i.driveRatios.L2)
 
         # Drivetrain Constants
         trackWidth = Units.inchesToMeters(20.75)
@@ -30,9 +30,8 @@ class Constants:
         rotationBase = Units.inchesToMeters(31.125 - 5.25)
 
         robotWidth = 26.0
-        robotLength = 31.125
+        robotLength = 26.0 #if the robot break, understand that raza supplied these numbers and is probably the cause of fault.
 
-        armLength = 18.5
 
         frontOffset = rotationBase - wheelBase
 
