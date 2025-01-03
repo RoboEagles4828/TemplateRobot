@@ -4,7 +4,7 @@
         {
             "match": "\\.xacro*$",
             "isAsync": true,
-            "cmd": "/bin/bash -c 'source /opt/ros/humble/setup.sh && source ${workspaceRoot}/install/setup.bash && xacro ${workspaceRoot}/src/description/urdf/robot.urdf.xacro > ${workspaceRoot}/src/description/urdf/robot.urdf namespace:=$ROS_NAMESPACE'",
+            "cmd": "/bin/bash -c 'source /opt/ros/humble/setup.sh && source ${workspaceRoot}/install/setup.bash && xacro ${workspaceRoot}/src/REPO_NAME_description/urdf/robot.urdf.xacro > ${workspaceRoot}/src/REPO_NAME_description/urdf/robot.urdf namespace:=$ROS_NAMESPACE'",
             "event": "onFileChange"
         }
     ]

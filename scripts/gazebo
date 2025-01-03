@@ -32,6 +32,7 @@ launch_gazebo() {
     -v /var/run/docker.sock:/var/run/docker.sock:rw \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v /tmp/.docker.xauth:/tmp/.docker.xauth:rw \
+    -v ${WORKSPACE_LOCAL_PATH}/:/root/REPO_NAME:rw \
     $IMAGE_NAME sleep infinity
 }
 
