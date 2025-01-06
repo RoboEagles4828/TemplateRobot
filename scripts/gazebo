@@ -20,7 +20,6 @@ launch_gazebo() {
     docker run -d -t \
     --name $CONTAINTER_NAME \
     --entrypoint "" \
-    --gpus 0 \
     --network=host -P \
     --privileged \
     -e "NVIDIA_VISIBLE_DEVICES=$NVIDIA_VISIBLE_DEVICES" \

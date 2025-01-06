@@ -40,8 +40,8 @@
         "/tmp/.docker.xauth:/tmp/.docker.xauth:rw",
         "-v",
         "/dev:/dev:rw",
-        "--runtime=nvidia",
-        "--gpus", "all",
+        // "--runtime=nvidia",
+        // "--gpus", "all",
         "--network=host",
         "--name=REPO_NAME",
         "--init"
