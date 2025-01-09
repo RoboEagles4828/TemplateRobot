@@ -9,6 +9,8 @@ from wpimath.kinematics import SwerveDrive4Odometry
 from wpimath.estimator import SwerveDrive4PoseEstimator
 from wpimath.kinematics import SwerveModulePosition
 
+from phoenix6.hardware.pigeon2 import Pigeon2
+
 from navx import AHRS
 
 from wpimath.geometry import Pose2d, Pose3d
