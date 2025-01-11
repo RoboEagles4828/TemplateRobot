@@ -32,6 +32,8 @@ class Constants:
         robotWidth = 26.0
         robotLength = 26.0 #if the robot break, understand that raza supplied these numbers and is probably the cause of fault.
 
+        canBus = "rio" # Either "canivore" or "rio" depending on what you're addressing CAN Ids with
+        phoenixPro = False
 
         frontOffset = rotationBase - wheelBase
 
@@ -122,9 +124,9 @@ class Constants:
         # Module Specific Constants
         # Front Left Module - Module 0
         class Mod0:
-            driveMotorID = 2
-            angleMotorID = 1
-            canCoderID = 3
+            driveMotorID = 1
+            angleMotorID = 3
+            canCoderID = 2
             # angleOffset = Rotation2d(rotationsToRadians(-0.354492))
             angleOffset = Rotation2d(rotationsToRadians(-0.349121))
                 # angleOffset = Rotation2d(rotationsToRadians(-0.352051))
@@ -132,18 +134,18 @@ class Constants:
 
         # Front Right Module - Module 1
         class Mod1:
-            driveMotorID = 19
-            angleMotorID = 18
-            canCoderID = 20
+            driveMotorID = 10
+            angleMotorID = 12
+            canCoderID = 11
             angleOffset = Rotation2d(rotationsToRadians(-0.2320910))
             # angleOffset = Rotation2d(rotationsToRadians(-0.233887))
             constants = SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset)
         
         # Back Left Module - Module 2
         class Mod2:
-            driveMotorID = 9
-            angleMotorID = 8
-            canCoderID = 7
+            driveMotorID = 4
+            angleMotorID = 6
+            canCoderID = 5
             # angleOffset = Rotation2d(rotationsToRadians(0.148193))
             angleOffset = Rotation2d(rotationsToRadians(0.175781))
             # angleOffset = Rotation2d(rotationsToRadians(0.155762))
@@ -151,9 +153,9 @@ class Constants:
 
         # Back Right Module - Module 3
         class Mod3:
-            driveMotorID = 12
-            angleMotorID = 11
-            canCoderID = 10
+            driveMotorID = 7
+            angleMotorID = 9
+            canCoderID = 8
             angleOffset = Rotation2d(rotationsToRadians(0.068359))
             # angleOffset = Rotation2d(rotationsToRadians(0.063232))
             constants = SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset)
