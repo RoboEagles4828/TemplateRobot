@@ -36,9 +36,9 @@ class Swerve(Subsystem):
         if RobotBase.isSimulation():
             self.gyro = SwerveIMUSim()
         else:
-            self.gyro = AHRS.create_spi()
-            self.gyro.calibrate()
-            self.gyro.zeroYaw()
+            self.gyro = Pigeon2(0) # 0 needs to be replaced with CAN ID of the pigeon we use (default is 0)
+            self.gyro.setYaw(0.0) # Pigeon 2 shouldn't need to calibrate, but zeroing the yaw just in case
+            # self.gyro.zeroYaw() Command above does what this does
 
         self.mSwerveMods = [
             SwerveModule(0, Constants.Swerve.Mod0.constants),
