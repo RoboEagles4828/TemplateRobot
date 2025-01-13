@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot name="REPO_NAME" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="parts/swerve_axle.xacro" />
+  <xacro:include filename="util/macros.xacro" />
+ 
+  <link name="base_link"></link>
+
+  <xacro:swerve_axle prefix="front_left" parent="base_link">
+    <origin xyz=" 0 0 0" rpy="0 0 0" />
+  </xacro:swerve_axle>
+</robot> 
