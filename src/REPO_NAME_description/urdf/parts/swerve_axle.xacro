@@ -40,7 +40,7 @@
             <visual>
                 <origin xyz="0 -${wheel_pos_y} 0" rpy="0 ${pi/4} ${pi/2}" />
                 <geometry>
-                    
+                     <mesh filename="package://REPO_NAME_description/meshes/SwerveAxle.stl"/>
                 </geometry>
                 <material name="yellow" />
             </visual>
