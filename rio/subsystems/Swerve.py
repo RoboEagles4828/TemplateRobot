@@ -140,7 +140,7 @@ class Swerve(Subsystem):
         self.gyro.zeroYaw()
 
     def getGyroYaw(self):
-        return Rotation2d.fromDegrees(self.gyro.get_yaw())#.__mul__(-1) it should report inverse of the navx, so negative is not required
+        return Rotation2d.fromDegrees(self.gyro.getYaw())#.__mul__(-1) it should report inverse of the navx, so negative is not required
     
     def resetModulesToAbsolute(self):
         self.mSwerveMods[0].resetToAbsolute()

@@ -3,7 +3,7 @@ from commands2 import Command
 from commands2 import CommandScheduler
 from CTREConfigs import CTREConfigs
 from Constants import Constants
-from rio.RobotContainer import RobotContainer
+from RobotContainer import RobotContainer
 from wpimath.geometry import Rotation2d
 
 from wpilib.shuffleboard import ShuffleboardTab
