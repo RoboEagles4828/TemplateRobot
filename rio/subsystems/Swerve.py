@@ -17,6 +17,8 @@ from wpimath.kinematics import SwerveModuleState
 from wpilib.shuffleboard import Shuffleboard, BuiltInWidgets
 from commands2.subsystem import Subsystem
 
+from sim.SwerveIMUSim import SwerveIMUSim
+
 from wpilib.sysid import SysIdRoutineLog
 from wpimath.units import volts
 
@@ -46,12 +48,13 @@ class Swerve(Subsystem):
 
         self.field = Field2d()
 
-        AutoBuilder.configureHolonomic(
+        AutoBuilder.configure(
             self.getPose,
             self.setPose,
             self.getRobotRelativeSpeeds,
             self.driveRobotRelative,
             Constants.Swerve.holonomicPathConfig,
+            Constants.Swerve.robotConfig,
             self.shouldFlipPath,
             self
         )
@@ -78,7 +81,7 @@ class Swerve(Subsystem):
         self.mSwerveMods[2].setDesiredState(swerveModuleStates[2], isOpenLoop)
         self.mSwerveMods[3].setDesiredState(swerveModuleStates[3], isOpenLoop)
     
-    def driveRobotRelative(self, speeds: ChassisSpeeds):
+    def driveRobotRelative(self, speeds: ChassisSpeeds, feedfoward):
         self.drive(Translation2d(speeds.vx, speeds.vy), -speeds.omega, False, False)
 
     def shouldFlipPath(self):
@@ -134,7 +137,7 @@ class Swerve(Subsystem):
         self.gyro.zeroYaw()
 
     def getGyroYaw(self):
-        return Rotation2d.fromDegrees(self.gyro.getYaw())#.__mul__(-1) it should report inverse of the navx, so negative is not required
+        return Rotation2d.fromDegrees(self.gyro.getYaw()).__mul__(-1) #it should report inverse of the navx, so negative is not required
     
     def resetModulesToAbsolute(self):
         self.mSwerveMods[0].resetToAbsolute()
@@ -183,7 +186,6 @@ class Swerve(Subsystem):
             poses.append(
                 robot_pose + Transform2d(loc, module.getState().angle)
             )
-        
         return poses
             
     def stop(self):

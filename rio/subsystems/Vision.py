@@ -2,10 +2,10 @@ from commands2 import Subsystem
 
 from photonlibpy.photonCamera import PhotonCamera, VisionLEDMode, Packet
 from photonlibpy.photonPoseEstimator import PhotonPoseEstimator, PoseStrategy
-from photonlibpy.photonPipelineResult import PhotonPipelineResult
+from photonlibpy.targeting.photonPipelineResult import PhotonPipelineResult
 from lib.util.PhotonUtils import PhotonUtils
 
-from robotpy_apriltag import AprilTagFieldLayout, AprilTagField, loadAprilTagLayoutField
+from robotpy_apriltag import AprilTagFieldLayout, AprilTagField
 
 from wpimath.geometry import Pose2d, Transform2d, Transform3d, Pose3d, Rotation2d, Rotation3d, Translation2d, Translation3d
 
@@ -31,7 +31,7 @@ class Vision(Subsystem):
             self.camera2 : PhotonCamera | None = None
             print("========= NO PHOTON CAMERAS FOUND =========")
 
-        self.aprilTagFieldLayout = loadAprilTagLayoutField(AprilTagField.k2024Crescendo)
+        self.aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagField.k2024Crescendo)
 
         self.speakerPositionBlue = Pose2d(Units.inchesToMeters(-1.50), Units.inchesToMeters(218.42), Rotation2d())
         self.speakerPositionRed = Pose2d(Units.inchesToMeters(652.73), Units.inchesToMeters(218.42), Rotation2d.fromDegrees(180.0))

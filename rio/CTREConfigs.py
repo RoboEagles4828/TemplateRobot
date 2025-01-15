@@ -1,7 +1,7 @@
 from phoenix6.configs import CANcoderConfiguration
 from phoenix6.configs import TalonFXConfiguration
 
-from phoenix6.signals.spn_enums import AbsoluteSensorRangeValue
+# from phoenix6.signals.spn_enums import AbsoluteSensorRangeValue
 from phoenix6.signals import InvertedValue
 
 from Constants import Constants

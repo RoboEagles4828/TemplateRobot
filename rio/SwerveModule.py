@@ -49,12 +49,13 @@ class SwerveModule:
 
 
     def setDesiredState(self, desiredState: SwerveModuleState, isOpenLoop: bool):
-        desiredState = SwerveModuleState.optimize(desiredState, self.getState().angle)
+        # desiredState = SwerveModuleState.optimize(desiredState, self.getState().angle)
+        desiredState.optimize(self.getState().angle)
         self.mAngleMotor.set_control(self.anglePosition.with_position(radiansToRotations(desiredState.angle.radians())))
         self.setSpeed(desiredState, isOpenLoop)
 
     def setDesiredStateNoOptimize(self, desiredState: SwerveModuleState, isOpenLoop: bool):
-        # desiredState = SwerveModuleState.optimize(desiredState, self.getState().angle)
+        desiredState = SwerveModuleState.optimize(desiredState, self.getState().angle)
         self.mAngleMotor.set_control(self.anglePosition.with_position(radiansToRotations(desiredState.angle.radians())))
         self.setSpeed(desiredState, isOpenLoop)
 
