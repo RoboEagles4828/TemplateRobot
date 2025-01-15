@@ -11,10 +11,12 @@ from lib.util.SwerveModuleConstants import SwerveModuleConstants
 import math
 
 from wpimath.units import rotationsToRadians
+from wpimath.system.plant import DCMotor
 
-from pathplannerlib.auto import HolonomicPathFollowerConfig
+from pathplannerlib.controller import PPHolonomicDriveController
 from pathplannerlib.controller import PIDConstants
-from pathplannerlib.config import ReplanningConfig
+from pathplannerlib.config import RobotConfig, ModuleConfig
+# from pathplannerlib.config import ReplanningConfig
 
 class Constants:
     stickDeadband = 0.1
@@ -22,15 +24,15 @@ class Constants:
     class Swerve:
         navxID = 0
 
-        chosenModule = COTSTalonFXSwerveConstants.MK4i.KrakenX60(COTSTalonFXSwerveConstants.MK4i.driveRatios.L2)
+        chosenModule = COTSTalonFXSwerveConstants.MK4i.KrakenX60(COTSTalonFXSwerveConstants.MK4i.driveRatios.L3)
 
         # Drivetrain Constants
-        trackWidth = Units.inchesToMeters(20.75)
-        wheelBase = Units.inchesToMeters(20.75)
+        trackWidth = Units.inchesToMeters(22.68)
+        wheelBase = Units.inchesToMeters(22.68)
         rotationBase = Units.inchesToMeters(31.125 - 5.25)
 
-        robotWidth = 26.0
-        robotLength = 26.0 #if the robot break, understand that raza supplied these numbers and is probably the cause of fault.
+        robotWidth = 28.0
+        robotLength = 28.0 #if the robot break, understand that raza supplied these numbers and is probably the cause of fault.
 
 
         frontOffset = rotationBase - wheelBase
@@ -105,14 +107,37 @@ class Constants:
         angleNeutralMode = NeutralModeValue.COAST
         driveNeutralMode = NeutralModeValue.BRAKE
 
-        holonomicPathConfig = HolonomicPathFollowerConfig(
+        holonomicPathConfig = PPHolonomicDriveController(
             PIDConstants(5.0, 0.0, 0.0),
             PIDConstants(5.0, 0.0, 0.0),
-            maxAutoModuleSpeed,
-            #distance from center to the furthest module
-            Units.inchesToMeters(16),
-            ReplanningConfig(),
+            # maxAutoModuleSpeed,
+            # #distance from center to the furthest module
+            # Units.inchesToMeters(16),
+            0.2
         )
+
+        # moduleConfig = ModuleConfig(
+        #     0.089,
+        #     16.5,
+        #     1.2,
+        #     DCMotor.krakenX60FOC(),
+        #     60.0,
+        #     1
+        # )
+        
+
+    #     robotConfig = RobotConfig(
+    #         52.1631,
+    #         6.490,
+    #         moduleConfig,
+    #         None,
+    #         0.576,
+    #   )
+
+        robotConfig = RobotConfig.fromGUISettings()
+
+
+        
 
         # Slowdown speed
         ## The speed is multiplied by this value when the trigger is fully held down

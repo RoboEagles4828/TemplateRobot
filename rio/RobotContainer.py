@@ -62,9 +62,9 @@ class RobotContainer:
 
         self.configureButtonBindings()
         
-        # self.auton_selector = AutoBuilder.buildAutoChooser("DO NOTHING")
+        self.auton_selector = AutoBuilder.buildAutoChooser("DO NOTHING")
 
-        # Shuffleboard.getTab("Autonomous").add("Auton Selector", self.auton_selector)
+        Shuffleboard.getTab("Autonomous").add("Auton Selector", self.auton_selector)
 
         Shuffleboard.getTab("Teleoperated").addBoolean("Field Oriented", self.getFieldOriented)
         Shuffleboard.getTab("Teleoperated").addBoolean("Zero Gyro", self.zeroGyro.getAsBoolean)
@@ -93,7 +93,7 @@ class RobotContainer:
         """
         translation = lambda: -applyDeadband(self.driver.getRawAxis(self.translationAxis), 0.1)
         strafe = lambda: -applyDeadband(self.driver.getRawAxis(self.strafeAxis), 0.1)
-        rotation = lambda: applyDeadband(self.driver.getRawAxis(self.rotationAxis), 0.1)
+        rotation = lambda: applyDeadband(self.driver.getRawAxis(3), 0.1)
         robotcentric = lambda: applyDeadband(self.robotCentric_value, 0.1)
         slow = lambda: applyDeadband(self.driver.getRawAxis(self.slowAxis), 0.1)
 
@@ -156,8 +156,8 @@ class RobotContainer:
      * @return the command to run in autonomous
     """
     def getAutonomousCommand(self) -> Command:
-        # auto = self.auton_selector.getSelected()
-        auto = None
+        auto = self.auton_selector.getSelected()
+        # auto = None
         return auto
     
     def setFastTurn(self, value: bool):
