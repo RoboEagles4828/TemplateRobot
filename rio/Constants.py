@@ -32,7 +32,7 @@ class Constants:
         robotWidth = 26.0
         robotLength = 26.0 #if the robot break, understand that raza supplied these numbers and is probably the cause of fault.
 
-        canBus = "rio" # Either "canivore" or "rio" depending on what you're addressing CAN Ids with
+        canBus = "canivore" # Either "canivore" or "rio" depending on what you're addressing CAN Ids with
         phoenixPro = False
 
         frontOffset = rotationBase - wheelBase
@@ -125,7 +125,7 @@ class Constants:
         # Front Left Module - Module 0
         class Mod0:
             driveMotorID = 1
-            angleMotorID = 3
+            angleMotorID = 3    
             canCoderID = 2
             # angleOffset = Rotation2d(rotationsToRadians(-0.354492))
             angleOffset = Rotation2d(rotationsToRadians(-0.349121))
