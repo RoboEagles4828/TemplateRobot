@@ -41,7 +41,7 @@
                 <origin xyz="0 -${wheel_pos_y} 0" rpy="0 ${pi/4} ${pi/2}" />
                 <geometry>
                     <!-- <cylinder length="${wheel_length}" radius="${wheel_radius}"/> -->
-                    <mesh filename="file:///../meshes/SwerveWheel.stl" />
+                    <mesh filename="package://repo_name_description/meshes/SwerveWheel.stl"/>
                 </geometry>
                 <material name="yellow" />
             </visual>

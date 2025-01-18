@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot name="REPO_NAME" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:include filename="parts/swerve_axle.xacro" />
-  <xacro:include filename="util/macros.xacro" />
+  <xacro:include filename="$(find repo_name_description)/urdf/parts/swerve_axle.xacro" />
+  <xacro:include filename="$(find repo_name_description)/urdf/util/macros.xacro" />
  
   <link name="base_link"></link>
 
