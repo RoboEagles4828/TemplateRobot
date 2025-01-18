@@ -38,7 +38,7 @@
         
         <link name="${prefix}_wheel_link">
             <visual>
-                <origin xyz="0 -${wheel_pos_y} 0" rpy="0 ${pi/4} ${pi/2}" />
+                <origin xyz="0 -${wheel_pos_y} 0" rpy="0 0 ${pi/2}" />
                 <geometry>
                     <!-- <cylinder length="${wheel_length}" radius="${wheel_radius}"/> -->
                     <mesh filename="package://repo_name_description/meshes/SwerveWheel.stl"/>

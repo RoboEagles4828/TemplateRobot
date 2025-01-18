@@ -29,7 +29,7 @@
   </joint>
   <link name="front_left_wheel_link">
     <visual>
-      <origin rpy="0 0.7853981633974483 1.5707963267948966" xyz="0 -0.022 0"/>
+      <origin rpy="0 0 1.5707963267948966" xyz="0 -0.022 0"/>
       <geometry>
         <!-- <cylinder length="${wheel_length}" radius="${wheel_radius}"/> -->
         <mesh filename="package://repo_name_description/meshes/SwerveWheel.stl"/>
