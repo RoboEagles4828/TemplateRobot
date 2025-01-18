@@ -6,6 +6,48 @@
 <robot name="REPO_NAME">
   <!-- Specify some standard inertial calculations https://en.wikipedia.org/wiki/List_of_moments_of_inertia -->
   <!-- These make use of xacro's mathematical functionality -->
+  <material name="black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="blue">
+    <color rgba="0.13725490196078433 0.43137254901960786 0.5882352941176471 1.0"/>
+  </material>
+  <material name="dark-blue">
+    <color rgba="0.0 0.0 0.5450980392156862 1.0"/>
+  </material>
+  <material name="green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+  <material name="ghost">
+    <color rgba="0.0 0.8 0.0 0.5"/>
+  </material>
+  <material name="grey">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+  <material name="yellow">
+    <color rgba="1.0 0.8431372549019608 0.0 1"/>
+  </material>
+  <material name="purple">
+    <color rgba="0.4980392156862745 0 0.4980392156862745 1"/>
+  </material>
+  <material name="orange">
+    <color rgba="0.9529411764705882 0.5294117647058824 0.1843137254901961 1"/>
+  </material>
+  <material name="brown">
+    <color rgba="0.8705882352941177 0.8117647058823529 0.7647058823529411 1.0"/>
+  </material>
+  <material name="red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+  <material name="silver">
+    <color rgba="0.700 0.700 0.700 1.000"/>
+  </material>
+  <material name="zed2i_mat">
+    <color rgba="0.25 0.25 0.25 0.99"/>
+  </material>
   <link name="base_link"/>
   <link name="front_left_axle_link">
     <visual>
@@ -29,9 +71,8 @@
   </joint>
   <link name="front_left_wheel_link">
     <visual>
-      <origin rpy="0 0 1.5707963267948966" xyz="0 -0.022 0"/>
+      <origin rpy="0 0 1.5707963267948966" xyz="0 0 0"/>
       <geometry>
-        <!-- <cylinder length="${wheel_length}" radius="${wheel_radius}"/> -->
         <mesh filename="package://repo_name_description/meshes/SwerveWheel.stl"/>
       </geometry>
       <material name="yellow"/>
@@ -51,7 +92,7 @@
   <joint name="front_left_wheel_joint" type="continuous">
     <parent link="front_left_axle_link"/>
     <child link="front_left_wheel_link"/>
-    <origin rpy="0 0 0" xyz="0 0 -0.063"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics friction="0.1"/>
   </joint>
