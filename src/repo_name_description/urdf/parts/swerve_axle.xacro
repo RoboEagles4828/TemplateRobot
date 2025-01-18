@@ -8,12 +8,14 @@
     <xacro:property name="wheel_radius" value="0.0508" />
     <xacro:property name="wheel_length" value="0.0381" />
     <xacro:property name="wheel_mass" value="0.23133211" />
+    <xacro:property name="wheel_z_offset" value="-0.0425"/>
 
     <xacro:macro name="swerve_axle" params="prefix parent *origin">
         <link name="${prefix}_axle_link">
             <visual>
-                <origin xyz="0 0 0" rpy="${pi} 0 ${pi/2}" />
+                <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
+                    <mesh filename="package://repo_name_description/meshes/SwerveAxle.stl"/>
                 </geometry>
                 <material name="blue" />
             </visual>
@@ -53,7 +55,8 @@
         <joint name="${prefix}_wheel_joint" type="continuous">
             <parent link="${prefix}_axle_link" />
             <child link="${prefix}_wheel_link" />
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <!-- <NOTE!!! This is a GUESS to offset the actual wheel onto the center of axle.> -->
+            <origin xyz="0 0 ${wheel_z_offset}" rpy="0 0 0"/>
             <axis xyz="0 1 0" />
             <dynamics friction="0.1" />
         </joint>
