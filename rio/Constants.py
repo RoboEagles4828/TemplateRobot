@@ -34,8 +34,8 @@ class Constants:
         robotWidth = 28.0
         robotLength = 28.0 #if the robot break, understand that raza supplied these numbers and is probably the cause of fault.
 
-        canBus = "canivore" # Either "canivore" or "rio" depending on what you're addressing CAN Ids with
-        phoenixPro = False
+        canBus = "Default Name" # Either "canivore" or "rio" depending on what you're addressing CAN Ids with
+        phoenixPro = True
 
         frontOffset = rotationBase - wheelBase
 
