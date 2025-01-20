@@ -12,6 +12,7 @@ from phoenix6.configs import CANcoderConfiguration
 from phoenix6.configs import TalonFXConfiguration 
 
 from wpilib import RobotBase
+from sim.SwerveModuleSim import SwerveModuleSim
 
 from wpimath.units import radiansToRotations, rotationsToRadians
 
@@ -47,12 +48,17 @@ class SwerveModule:
         self.mDriveMotor.configurator.apply(self.ctreConfigs.swerveDriveFXConfig)
         self.mDriveMotor.configurator.set_position(0.0)
 
+        if RobotBase.isSimulation():
+            self.simModule = SwerveModuleSim()
 
     def setDesiredState(self, desiredState: SwerveModuleState, isOpenLoop: bool):
         # desiredState = SwerveModuleState.optimize(desiredState, self.getState().angle)
         desiredState.optimize(self.getState().angle)
         self.mAngleMotor.set_control(self.anglePosition.with_position(radiansToRotations(desiredState.angle.radians())))
         self.setSpeed(desiredState, isOpenLoop)
+
+        if RobotBase.isSimulation():
+            self.simModule.updateStateAndPosition(desiredState)
 
     def setDesiredStateNoOptimize(self, desiredState: SwerveModuleState, isOpenLoop: bool):
         desiredState = SwerveModuleState.optimize(desiredState, self.getState().angle)
@@ -79,12 +85,16 @@ class SwerveModule:
         self.mAngleMotor.set_position(radiansToRotations(absolutePosition))
 
     def getState(self):
+        if RobotBase.isSimulation():
+            return self.simModule.getState()
         return SwerveModuleState(
             Conversions.RPSToMPS(self.mDriveMotor.get_velocity().value_as_double, Constants.Swerve.wheelCircumference),
             Rotation2d(rotationsToRadians(self.mAngleMotor.get_position().value_as_double))
         )
 
     def getPosition(self):
+        if RobotBase.isSimulation():
+            return self.simModule.getPosition()
         return SwerveModulePosition(
             Conversions.rotationsToMeters(self.mDriveMotor.get_position().value_as_double, Constants.Swerve.wheelCircumference),
             Rotation2d(rotationsToRadians(self.mAngleMotor.get_position().value_as_double))

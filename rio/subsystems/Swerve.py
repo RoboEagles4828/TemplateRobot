@@ -199,4 +199,8 @@ class Swerve(Subsystem):
         self.drive(Translation2d(), 0, False, True)
 
     def periodic(self):
+        if RobotBase.isSimulation():
+            modulePoses = self.getSwerveModulePoses(self.getPose())
+            self.gyro.updateOdometry(Constants.Swerve.swerveKinematics, self.getModuleStates(), modulePoses, self.field)
+            self.field.getRobotObject().setPose(self.getPose())
         self.swerveOdometry.update(self.getGyroYaw(), tuple(self.getModulePositions()))
