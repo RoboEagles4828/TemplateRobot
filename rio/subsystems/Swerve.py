@@ -8,7 +8,9 @@ from wpimath.estimator import SwerveDrive4PoseEstimator
 from wpimath.kinematics import SwerveModulePosition
 
 from phoenix6.hardware.pigeon2 import Pigeon2
-from navx import AHRS
+from phoenix6.configs.pigeon2_configs import Pigeon2Configuration
+from phoenix6.configs.pigeon2_configs import Pigeon2Configurator
+# from navx import AHRS
 
 from wpimath.geometry import Pose2d, Pose3d
 from wpimath.geometry import Rotation2d
@@ -34,7 +36,8 @@ class Swerve(Subsystem):
         if RobotBase.isSimulation():
             self.gyro = SwerveIMUSim()
         else:
-            self.gyro = Pigeon2(0, Constants.Swerve.canBus) # 0 needs to be replaced with CAN ID of the pigeon we use (default is 0)
+            self.gyro = Pigeon2(Constants.Swerve.pigeonID, Constants.Swerve.canBus) # 0 needs to be replaced with CAN ID of the pigeon we use (default is 0)
+            self.gyro.configurator.apply(Pigeon2Configuration())
             self.gyro.set_yaw(0.0) # Pigeon 2 shouldn't need to calibrate, but zeroing the yaw just in case
             # self.gyro.zeroYaw() Command above does what this does
 
@@ -139,11 +142,10 @@ class Swerve(Subsystem):
         self.gyro.zeroYaw()
 
     def getGyroYaw(self):
-        if RobotBase.isSimulation():   
-            return Rotation2d.fromDegrees(self.gyro.getYaw()).__mul__(-1) #it should report inverse of the navx, so negative is not required
+        if RobotBase.isSimulation():
+            return Rotation2d.fromDegrees(self.gyro.getYaw())
         else:
-            gyro_yaw_signal = self.gyro.get_yaw()
-            return Rotation2d.fromDegrees(gyro_yaw_signal.value)  
+            return Rotation2d.fromDegrees(self.gyro.get_yaw().value)  
     def resetModulesToAbsolute(self):
         self.mSwerveMods[0].resetToAbsolute()
         self.mSwerveMods[1].resetToAbsolute()

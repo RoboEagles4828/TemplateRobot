@@ -22,19 +22,19 @@ class Constants:
     stickDeadband = 0.1
 
     class Swerve:
-        navxID = 0
+        pigeonID = 0
 
-        chosenModule = COTSTalonFXSwerveConstants.MK4i.KrakenX60(COTSTalonFXSwerveConstants.MK4i.driveRatios.L3)
+        chosenModule = COTSTalonFXSwerveConstants.MK4i.Falcon500(COTSTalonFXSwerveConstants.MK4i.driveRatios.L2)
 
-        # Drivetrain Constants
+        # Drivetrain Constants remember to check this everytime you change chassis
         trackWidth = Units.inchesToMeters(22.68)
         wheelBase = Units.inchesToMeters(22.68)
         rotationBase = Units.inchesToMeters(31.125 - 5.25)
 
-        robotWidth = 28.0
-        robotLength = 28.0 #if the robot break, understand that raza supplied these numbers and is probably the cause of fault.
+        robotWidth = 26.0
+        robotLength = 26.0 #if the robot break, understand that raza supplied these numbers and is probably the cause of fault.
 
-        canBus = "Default Name" # Either "canivore" or "rio" depending on what you're addressing CAN Ids with
+        canBus = "Default Name" # Either "canivore", "Default Name", "rio" depending on what you're addressing CAN Ids with
         phoenixPro = True
 
         frontOffset = rotationBase - wheelBase
@@ -68,14 +68,14 @@ class Constants:
 
         # Swerve Current Limiting
         angleCurrentLimit = 25
-        angleCurrentThreshold = 40
-        angleCurrentThresholdTime = 0.1
+        angleCurrentLowerLimit = 40  #previously angleCurrentThreshold
+        angleCurrentLowerTime = 0.1 #angleCurrentThresholdTime
         angleEnableCurrentLimit = True
 
         driveCurrentLimit = 35
-        driveCurrentThreshold = 60
-        driveCurrentThresholdTime = 0.1
-        driveEnableCurrentLimit = True
+        driveCurrentLowerLimit = 60   #previously driveCurrentThreshold
+        driveCurrentLowerTime = 0.1
+        driveEnableCurrentLimit = True #previously driveCurrentThresholdTime
         
         driveStatorCurrentLimit = 130
         driveEnableStatorCurrentLimit = True

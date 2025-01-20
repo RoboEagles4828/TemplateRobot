@@ -35,8 +35,8 @@ class CTREConfigs:
         # Current Limiting 
         self.swerveAngleFXConfig.current_limits.supply_current_limit_enable = Constants.Swerve.angleEnableCurrentLimit
         self.swerveAngleFXConfig.current_limits.supply_current_limit = Constants.Swerve.angleCurrentLimit
-        self.swerveAngleFXConfig.current_limits.supply_current_threshold = Constants.Swerve.angleCurrentThreshold
-        self.swerveAngleFXConfig.current_limits.supply_time_threshold = Constants.Swerve.angleCurrentThresholdTime
+        self.swerveAngleFXConfig.current_limits.supply_current_lower_limit = Constants.Swerve.angleCurrentLowerLimit
+        self.swerveAngleFXConfig.current_limits.supply_current_lower_time = Constants.Swerve.angleCurrentLowerTime
 
         # PID Config 
         self.swerveAngleFXConfig.slot0.k_p = Constants.Swerve.angleKP
@@ -54,8 +54,8 @@ class CTREConfigs:
         # Current Limiting 
         self.swerveDriveFXConfig.current_limits.supply_current_limit_enable = Constants.Swerve.driveEnableCurrentLimit
         self.swerveDriveFXConfig.current_limits.supply_current_limit = Constants.Swerve.driveCurrentLimit
-        self.swerveDriveFXConfig.current_limits.supply_current_threshold = Constants.Swerve.driveCurrentThreshold
-        self.swerveDriveFXConfig.current_limits.supply_time_threshold = Constants.Swerve.driveCurrentThresholdTime
+        self.swerveDriveFXConfig.current_limits.supply_current_lower_limit = Constants.Swerve.driveCurrentLowerLimit
+        self.swerveDriveFXConfig.current_limits.supply_current_lower_time = Constants.Swerve.driveCurrentLowerTime
         
         self.swerveDriveFXConfig.current_limits.stator_current_limit = Constants.Swerve.driveStatorCurrentLimit
         self.swerveDriveFXConfig.current_limits.stator_current_limit_enable = Constants.Swerve.driveEnableStatorCurrentLimit

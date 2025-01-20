@@ -2,7 +2,7 @@ from wpimath.geometry import Rotation2d, Pose2d
 from wpimath.kinematics import SwerveDrive4Kinematics, SwerveModuleState
 from wpilib import Timer
 from wpilib import Field2d
-
+from phoenix6.sim.pigeon2_sim_state import Pigeon2SimState
 class SwerveIMUSim():
     def __init__(self) -> None:
         self.timer = Timer()
