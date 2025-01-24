@@ -7,9 +7,13 @@ from wpimath.kinematics import SwerveDrive4Odometry
 from wpimath.estimator import SwerveDrive4PoseEstimator
 from wpimath.kinematics import SwerveModulePosition
 
+from subsystems.Vision import Vision
+
 from phoenix6.hardware.pigeon2 import Pigeon2
 from phoenix6.configs.pigeon2_configs import Pigeon2Configuration
 from phoenix6.configs.pigeon2_configs import Pigeon2Configurator
+from phoenix6.configs.talon_fx_configs import TalonFXConfiguration
+from phoenix6.configs.talon_fx_configs import TalonFXConfigurator
 # from navx import AHRS
 
 from wpimath.geometry import Pose2d, Pose3d
@@ -41,6 +45,8 @@ class Swerve(Subsystem):
             self.gyro.set_yaw(0.0) # Pigeon 2 shouldn't need to calibrate, but zeroing the yaw just in case
             # self.gyro.zeroYaw() Command above does what this does
 
+        self.isOTF = False
+        self.currentPPSetpointIndex = 0
         self.mSwerveMods = [
             SwerveModule(0, Constants.Swerve.Mod0.constants),
             SwerveModule(1, Constants.Swerve.Mod1.constants),
@@ -51,6 +57,7 @@ class Swerve(Subsystem):
         # self.swerveOdometry = SwerveDrive4Odometry(Constants.Swerve.swerveKinematics, self.getGyroYaw(), self.getModulePositions())
         self.swerveOdometry = SwerveDrive4PoseEstimator(Constants.Swerve.swerveKinematics, self.getGyroYaw(), self.getModulePositions(), Pose2d(0, 0, Rotation2d()))
 
+        self.vision: Vision = Vision.getInstance()
         self.field = Field2d()
 
         AutoBuilder.configure(
@@ -87,7 +94,7 @@ class Swerve(Subsystem):
         self.mSwerveMods[3].setDesiredState(swerveModuleStates[3], isOpenLoop)
     
     def driveRobotRelative(self, speeds: ChassisSpeeds, feedfoward):
-        self.drive(Translation2d(speeds.vx, speeds.vy), -speeds.omega, False, False)
+        self.drive(Translation2d(speeds.vx, speeds.vy), speeds.omega, False, False)
 
     def shouldFlipPath(self):
         return DriverStation.getAlliance() == DriverStation.Alliance.kRed
@@ -143,7 +150,7 @@ class Swerve(Subsystem):
 
     def getGyroYaw(self):
         if RobotBase.isSimulation():
-            return Rotation2d.fromDegrees(self.gyro.getYaw())
+            return Rotation2d.fromDegrees(self.gyro.getYaw()).__mul__(-1)
         else:
             return Rotation2d.fromDegrees(self.gyro.get_yaw().value)  
     def resetModulesToAbsolute(self):
@@ -204,3 +211,117 @@ class Swerve(Subsystem):
             self.gyro.updateOdometry(Constants.Swerve.swerveKinematics, self.getModuleStates(), modulePoses, self.field)
             self.field.getRobotObject().setPose(self.getPose())
         self.swerveOdometry.update(self.getGyroYaw(), tuple(self.getModulePositions()))
+        # optEstimatedPoseFrontLeft = self.vision.getEstimatedGlobalPoseFrontLeft()
+        # optEstimatedPoseFrontRight = self.vision.getEstimatedGlobalPoseFrontRight()
+        # optEstimatedPoseBackLeft = self.vision.getEstimatedGlobalPoseBackLeft()
+        # optEstimatedPoseBackRight = self.vision.getEstimatedGlobalPoseBackRight()
+
+
+        # if optEstimatedPoseFrontLeft is not None:
+        #     estimatedPose = optEstimatedPoseFrontLeft
+
+        #     tags = estimatedPose.targetsUsed
+        #     tagPoses: list[Pose3d] = []
+        #     distance = 0.0
+        #     stddevs = (0.0, 0.0, 0.0)
+            
+        #     if len(tags) > 0:
+        #         for tag in tags:
+        #             id = tag.getFiducialId()
+        #             pose = self.vision.aprilTagFieldLayout.getTagPose(id)
+        #             if pose is not None:
+        #                 tagPoses.append(pose)
+
+        #         if len(tagPoses) > 0:
+        #             for tagPose in tagPoses:
+        #                 distance += tagPose.translation().distance(estimatedPose.estimatedPose.translation())
+
+        #             distance /= len(tagPoses)
+                
+        #         xyStdDev = (Constants.StandardDeviations.singleTagXY if len(tagPoses) == 1 else Constants.StandardDeviations.multiTagXY) * distance**2
+        #         stddevs = (xyStdDev, xyStdDev, Constants.StandardDeviations.tagRot)
+                
+
+        #     self.swerveOdometry.addVisionMeasurement(Pose2d(estimatedPose.estimatedPose.toPose2d().X(), estimatedPose.estimatedPose.toPose2d().Y(), self.getHeading()), estimatedPose.timestampSeconds, stddevs)
+
+        # if optEstimatedPoseFrontRight is not None:
+        #     estimatedPose = optEstimatedPoseFrontRight
+
+        #     tags = estimatedPose.targetsUsed
+        #     tagPoses: list[Pose3d] = []
+        #     distance = 0.0
+        #     stddevs = (0.0, 0.0, 0.0)
+            
+        #     if len(tags) > 0:
+        #         for tag in tags:
+        #             id = tag.getFiducialId()
+        #             pose = self.vision.aprilTagFieldLayout.getTagPose(id)
+        #             if pose is not None:
+        #                 tagPoses.append(pose)
+
+        #         if len(tagPoses) > 0:
+        #             for tagPose in tagPoses:
+        #                 distance += tagPose.translation().distance(estimatedPose.estimatedPose.translation())
+
+        #             distance /= len(tagPoses)
+                
+        #         xyStdDev = (Constants.StandardDeviations.singleTagXY if len(tagPoses) == 1 else Constants.StandardDeviations.multiTagXY) * distance**2
+        #         stddevs = (xyStdDev, xyStdDev, Constants.StandardDeviations.tagRot)
+                
+
+        #     self.swerveOdometry.addVisionMeasurement(Pose2d(estimatedPose.estimatedPose.toPose2d().X(), estimatedPose.estimatedPose.toPose2d().Y(), self.getHeading()), estimatedPose.timestampSeconds, stddevs)
+
+        # if optEstimatedPoseBackLeft is not None:
+        #     estimatedPose = optEstimatedPoseBackLeft
+
+        #     tags = estimatedPose.targetsUsed
+        #     tagPoses: list[Pose3d] = []
+        #     distance = 0.0
+        #     stddevs = (0.0, 0.0, 0.0)
+            
+        #     if len(tags) > 0:
+        #         for tag in tags:
+        #             id = tag.getFiducialId()
+        #             pose = self.vision.aprilTagFieldLayout.getTagPose(id)
+        #             if pose is not None:
+        #                 tagPoses.append(pose)
+
+        #         if len(tagPoses) > 0:
+        #             for tagPose in tagPoses:
+        #                 distance += tagPose.translation().distance(estimatedPose.estimatedPose.translation())
+
+        #             distance /= len(tagPoses)
+                
+        #         xyStdDev = (Constants.StandardDeviations.singleTagXY if len(tagPoses) == 1 else Constants.StandardDeviations.multiTagXY) * distance**2
+        #         stddevs = (xyStdDev, xyStdDev, Constants.StandardDeviations.tagRot)
+                
+
+        #     self.swerveOdometry.addVisionMeasurement(Pose2d(estimatedPose.estimatedPose.toPose2d().X(), estimatedPose.estimatedPose.toPose2d().Y(), self.getHeading()), estimatedPose.timestampSeconds, stddevs)
+        # if optEstimatedPoseBackRight is not None:
+        #     estimatedPose = optEstimatedPoseBackRight
+
+        #     tags = estimatedPose.targetsUsed
+        #     tagPoses: list[Pose3d] = []
+        #     distance = 0.0
+        #     stddevs = (0.0, 0.0, 0.0)
+            
+        #     if len(tags) > 0:
+        #         for tag in tags:
+        #             id = tag.getFiducialId()
+        #             pose = self.vision.aprilTagFieldLayout.getTagPose(id)
+        #             if pose is not None:
+        #                 tagPoses.append(pose)
+
+        #         if len(tagPoses) > 0:
+        #             for tagPose in tagPoses:
+        #                 distance += tagPose.translation().distance(estimatedPose.estimatedPose.translation())
+
+        #             distance /= len(tagPoses)
+                
+        #         xyStdDev = (Constants.StandardDeviations.singleTagXY if len(tagPoses) == 1 else Constants.StandardDeviations.multiTagXY) * distance**2
+        #         stddevs = (xyStdDev, xyStdDev, Constants.StandardDeviations.tagRot)
+                
+
+        #     self.swerveOdometry.addVisionMeasurement(Pose2d(estimatedPose.estimatedPose.toPose2d().X(), estimatedPose.estimatedPose.toPose2d().Y(), self.getHeading()), estimatedPose.timestampSeconds, stddevs)
+
+        

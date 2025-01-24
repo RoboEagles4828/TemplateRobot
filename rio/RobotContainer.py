@@ -13,6 +13,7 @@ import math
 
 from wpimath.geometry import *
 import wpimath.units as Units
+from wpimath.kinematics import *
 import lib.mathlib.Units as CustomUnits
 from lib.mathlib.Conversions import Conversions
 from Constants import Constants
@@ -21,7 +22,9 @@ from commands.TeleopSwerve import TeleopSwerve
 from commands.TurnInPlace import TurnInPlace
 
 from subsystems.Swerve import Swerve
+from subsystems.Vision import Vision
 from commands.SysId import DriveSysId
+from commands.PathFindToTag import PathFindToTag
 
 from wpilib.shuffleboard import Shuffleboard, BuiltInWidgets, BuiltInLayouts
 from wpilib import SendableChooser, RobotBase, DriverStation
@@ -53,13 +56,17 @@ class RobotContainer:
 
     #SysId
     driveSysId = DriveSysId(s_Swerve)
+    # pathFind = PathFindToTag(s_Swerve, s_Vision, 18, 10)
     # The container for the robot. Contains subsystems, OI devices, and commands.
     def __init__(self):
         # Configure driver controls
         self.zeroGyro = self.driver.back()
         self.robotCentric = self.driver.start()
 
-        self.fastTurn = self.driver.povUp()
+        self.fastTurn = self.driver.povDown()
+        self.coralStation = self.driver.leftTrigger()
+
+        self.toPos = self.driver.x()
 
         self.configureButtonBindings()
 
@@ -88,7 +95,7 @@ class RobotContainer:
     def configureButtonBindings(self):
         translation = lambda: -applyDeadband(self.driver.getRawAxis(self.translationAxis), 0.1)
         strafe = lambda: -applyDeadband(self.driver.getRawAxis(self.strafeAxis), 0.1)
-        rotation = lambda: applyDeadband(self.driver.getRawAxis(self.rotationAxis), 0.1)
+        rotation = lambda: -applyDeadband(self.driver.getRawAxis(self.rotationAxis), 0.1)
         robotcentric = lambda: applyDeadband(self.robotCentric_value, 0.1)
         slow = lambda: applyDeadband(self.driver.getRawAxis(self.slowAxis), 0.1)
         # slow = lambda: 0.0
@@ -122,7 +129,6 @@ class RobotContainer:
         Shuffleboard.getTab("Teleoperated").addBoolean("TURN PID ON TARGET", lambda: turnInPlaceCmd.turnPID.atSetpoint())
 
         self.fastTurn.whileTrue(InstantCommand(lambda: self.setFastTurn(True))).whileFalse(InstantCommand(lambda: self.setFastTurn(False)))
-
 
     def toggleFieldOriented(self):
         self.robotCentric_value = not self.robotCentric_value

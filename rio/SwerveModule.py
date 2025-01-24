@@ -1,5 +1,6 @@
 from phoenix6.controls import DutyCycleOut, PositionVoltage, VelocityVoltage, VoltageOut
 from phoenix6.hardware import CANcoder, TalonFX
+from phoenix6.signals import InvertedValue
 
 from wpimath.controller import SimpleMotorFeedforwardMeters
 from wpimath.geometry import Rotation2d
@@ -42,10 +43,16 @@ class SwerveModule:
 
         self.mAngleMotor = TalonFX(moduleConstants.angleMotorID, Constants.Swerve.canBus)
         self.mAngleMotor.configurator.apply(self.ctreConfigs.swerveAngleFXConfig)
-        self.resetToAbsolute()
+        self.resetToAbsolute() 
 
         self.mDriveMotor = TalonFX(moduleConstants.driveMotorID, Constants.Swerve.canBus)
-        self.mDriveMotor.configurator.apply(self.ctreConfigs.swerveDriveFXConfig)
+        if self.moduleNumber == 1 or self.moduleNumber == 3:
+            self.ctreConfigs.swerveDriveFXConfig.motor_output.inverted = InvertedValue.CLOCKWISE_POSITIVE
+            self.mDriveMotor.configurator.apply(self.ctreConfigs.swerveDriveFXConfig)
+            self.ctreConfigs.swerveDriveFXConfig.motor_output.inverted = InvertedValue.COUNTER_CLOCKWISE_POSITIVE
+        else:
+            self.mDriveMotor.configurator.apply(self.ctreConfigs.swerveDriveFXConfig)
+        # self.mDriveMotor.configurator.apply(self.ctreConfigs.swerveDriveFXConfig)
         self.mDriveMotor.configurator.set_position(0.0)
 
         if RobotBase.isSimulation():
@@ -99,6 +106,7 @@ class SwerveModule:
             Conversions.rotationsToMeters(self.mDriveMotor.get_position().value_as_double, Constants.Swerve.wheelCircumference),
             Rotation2d(rotationsToRadians(self.mAngleMotor.get_position().value_as_double))
         )
+    
 
 
 

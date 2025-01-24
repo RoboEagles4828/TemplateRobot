@@ -24,12 +24,13 @@ class Constants:
     class Swerve:
         pigeonID = 0
 
-        chosenModule = COTSTalonFXSwerveConstants.MK4i.Falcon500(COTSTalonFXSwerveConstants.MK4i.driveRatios.L2)
+        chosenModule = COTSTalonFXSwerveConstants.MK4i.KrakenX60(COTSTalonFXSwerveConstants.MK4i.driveRatios.L3)
 
         # Drivetrain Constants remember to check this everytime you change chassis
-        trackWidth = Units.inchesToMeters(22.68)
-        wheelBase = Units.inchesToMeters(22.68)
-        rotationBase = Units.inchesToMeters(31.125 - 5.25)
+        trackWidth = Units.inchesToMeters(20.5)
+        wheelBase = Units.inchesToMeters(20.5)
+        # rotationBase = Units.inchesToMeters(12.56)
+        wheelCircumference = wheelCircumference = chosenModule.wheelCircumference
 
         robotWidth = 26.0
         robotLength = 26.0 #if the robot break, understand that raza supplied these numbers and is probably the cause of fault.
@@ -37,14 +38,19 @@ class Constants:
         canBus = "Default Name" # Either "canivore", "Default Name", "rio" depending on what you're addressing CAN Ids with
         phoenixPro = True
 
-        frontOffset = rotationBase - wheelBase
+        # frontOffset = rotationBase - wheelBase
 
-        wheelCircumference = chosenModule.wheelCircumference
+        # wheelCircumference = chosenModule.wheelCircumference
 
-        frontLeftLocation = Translation2d(-((wheelBase / 2.0) - frontOffset), -trackWidth / 2.0)
-        frontRightLocation = Translation2d(-((wheelBase / 2.0) - frontOffset), trackWidth / 2.0)
-        backLeftLocation = Translation2d(wheelBase / 2.0, -trackWidth / 2.0)
-        backRightLocation = Translation2d(wheelBase / 2.0, trackWidth / 2.0)
+        # frontLeftLocation = Translation2d(-((wheelBase / 2.0) - frontOffset), -trackWidth / 2.0)
+        # frontRightLocation = Translation2d(-((wheelBase / 2.0) - frontOffset), trackWidth / 2.0)
+        # backLeftLocation = Translation2d(wheelBase / 2.0, -trackWidth / 2.0)
+        # backRightLocation = Translation2d(wheelBase / 2.0, trackWidth / 2.0)
+
+        frontLeftLocation = Translation2d(wheelBase / 2.0, trackWidth / 2.0)
+        frontRightLocation = Translation2d(wheelBase / 2.0, -trackWidth / 2.0)
+        backLeftLocation = Translation2d(-wheelBase / 2.0, trackWidth / 2.0)
+        backRightLocation = Translation2d(-wheelBase / 2.0, -trackWidth / 2.0)
 
         robotCenterLocation = Translation2d(0.0, 0.0)
 
@@ -110,7 +116,7 @@ class Constants:
         driveNeutralMode = NeutralModeValue.BRAKE
 
         holonomicPathConfig = PPHolonomicDriveController(
-            PIDConstants(5.0, 0.0, 0.0),
+            PIDConstants(4.5, 0.0, 0.0),
             PIDConstants(5.0, 0.0, 0.0),
             # maxAutoModuleSpeed,
             # #distance from center to the furthest module
@@ -153,8 +159,10 @@ class Constants:
             angleMotorID = 3    
             canCoderID = 2
             # angleOffset = Rotation2d(rotationsToRadians(-0.354492))
-            angleOffset = Rotation2d(rotationsToRadians(-0.349121))
+            # angleOffset = Rotation2d(rotationsToRadians(-0.349121)) jdjdjd
+            angleOffset = Rotation2d(rotationsToRadians(-0.098633))
                 # angleOffset = Rotation2d(rotationsToRadians(-0.352051))
+
             constants = SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset)
 
         # Front Right Module - Module 1
@@ -162,8 +170,9 @@ class Constants:
             driveMotorID = 10
             angleMotorID = 12
             canCoderID = 11
-            angleOffset = Rotation2d(rotationsToRadians(-0.2320910))
+            # angleOffset = Rotation2d(rotationsToRadians(-0.2320910)) jsajsjs
             # angleOffset = Rotation2d(rotationsToRadians(-0.233887))
+            angleOffset = Rotation2d(rotationsToRadians(0.442627))
             constants = SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset)
         
         # Back Left Module - Module 2
@@ -172,7 +181,8 @@ class Constants:
             angleMotorID = 6
             canCoderID = 5
             # angleOffset = Rotation2d(rotationsToRadians(0.148193))
-            angleOffset = Rotation2d(rotationsToRadians(0.175781))
+            # angleOffset = Rotation2d(rotationsToRadians(0.175781))
+            angleOffset = Rotation2d(rotationsToRadians(-.374023))
             # angleOffset = Rotation2d(rotationsToRadians(0.155762))
             constants = SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset)
 
@@ -181,8 +191,9 @@ class Constants:
             driveMotorID = 7
             angleMotorID = 9
             canCoderID = 8
-            angleOffset = Rotation2d(rotationsToRadians(0.068359))
+            # angleOffset = Rotation2d(rotationsToRadians(0.068359))
             # angleOffset = Rotation2d(rotationsToRadians(0.063232))
+            angleOffset = Rotation2d(rotationsToRadians(-0.040527))
             constants = SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset)
 
     class AutoConstants:
@@ -206,3 +217,5 @@ class Constants:
         singleTagXY = 0.03
         multiTagXY = 0.05
         tagRot = math.radians(40.0)
+
+    
