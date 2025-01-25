@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 # IMAGE_NAME="ghcr.io/roboeagles4828/gazebo:2024.8.31"
-IMAGE_NAME="osrf/ros:humble-simulation"
+IMAGE_NAME="osrf/ros:jazzy-simulation"
 CONTAINTER_NAME="gazebo"
 DEFAULT_CMD="ign gazebo"
 CMD=${@:-$DEFAULT_CMD}

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Pull the actual image so it is saved locally
-docker pull ghcr.io/roboeagles4828/developer-environment:10
+docker pull ghcr.io/roboeagles4828/developer-environment:12
 
 # Create the directory where isaac sim will save to.
 # mkdir -p ~/docker/isaac-sim
