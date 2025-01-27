@@ -1,29 +1,38 @@
+from wpilib.interfaces import GenericHID
+from wpilib import Joystick
 from wpilib import XboxController
-from commands2.button import CommandXboxController
-from commands2 import Command
-from commands2 import InstantCommand, WaitCommand, SequentialCommandGroup, ParallelCommandGroup, WaitUntilCommand
+from commands2.button import CommandXboxController, Trigger
+from commands2 import Command, ParallelDeadlineGroup, Subsystem
+from commands2 import InstantCommand, ConditionalCommand, WaitCommand, PrintCommand, RunCommand, SequentialCommandGroup, ParallelCommandGroup, WaitUntilCommand, StartEndCommand, DeferredCommand
 from commands2.button import JoystickButton
+import commands2.cmd as cmd
 from CTREConfigs import CTREConfigs
+from commands2 import CommandScheduler
 import math
 
+
 from wpimath.geometry import *
+import wpimath.units as Units
+from wpimath.kinematics import *
+import lib.mathlib.Units as CustomUnits
+from lib.mathlib.Conversions import Conversions
 from Constants import Constants
 
 from commands.TeleopSwerve import TeleopSwerve
+from commands.TurnInPlace import TurnInPlace
 
 from subsystems.Swerve import Swerve
 from subsystems.Vision import Vision
-
-from commands.TurnInPlace import TurnInPlace
-
 from commands.SysId import DriveSysId
+from commands.PathFindToTag import PathFindToTag
 
-from wpilib.shuffleboard import Shuffleboard
-from wpilib import DriverStation
+from wpilib.shuffleboard import Shuffleboard, BuiltInWidgets, BuiltInLayouts
+from wpilib import SendableChooser, RobotBase, DriverStation
 
 from wpimath import applyDeadband
 
-from pathplannerlib.auto import NamedCommands, AutoBuilder
+from pathplannerlib.auto import NamedCommands, PathConstraints, AutoBuilder
+from pathplannerlib.controller import PPHolonomicDriveController
 
 
 class RobotContainer:
@@ -47,24 +56,23 @@ class RobotContainer:
 
     #SysId
     driveSysId = DriveSysId(s_Swerve)
-
+    # pathFind = PathFindToTag(s_Swerve, s_Vision, 18, 10)
     # The container for the robot. Contains subsystems, OI devices, and commands.
     def __init__(self):
-        # Driver Controls
+        # Configure driver controls
         self.zeroGyro = self.driver.back()
         self.robotCentric = self.driver.start()
 
-        self.fastTurn = self.driver.povUp()
-        # Slowmode is defined with the other Axis objects
+        self.fastTurn = self.driver.povDown()
+        self.coralStation = self.driver.leftTrigger()
 
-        # Operator Controls
-        self.autoHome = self.operator.rightTrigger()
+        self.toPos = self.driver.x()
 
         self.configureButtonBindings()
-        
-        # self.auton_selector = AutoBuilder.buildAutoChooser("DO NOTHING")
 
-        # Shuffleboard.getTab("Autonomous").add("Auton Selector", self.auton_selector)
+        self.auton_selector = AutoBuilder.buildAutoChooser("DO NOTHING")
+
+        Shuffleboard.getTab("Autonomous").add("Auton Selector", self.auton_selector)
 
         Shuffleboard.getTab("Teleoperated").addBoolean("Field Oriented", self.getFieldOriented)
         Shuffleboard.getTab("Teleoperated").addBoolean("Zero Gyro", self.zeroGyro.getAsBoolean)
@@ -85,17 +93,12 @@ class RobotContainer:
             return DriverStation.getAlliance().name
 
     def configureButtonBindings(self):
-        """
-        Use this method to define your button->command mappings. Buttons can be created by
-        instantiating a {@link GenericHID} or one of its subclasses ({@link
-        * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-        * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-        """
         translation = lambda: -applyDeadband(self.driver.getRawAxis(self.translationAxis), 0.1)
         strafe = lambda: -applyDeadband(self.driver.getRawAxis(self.strafeAxis), 0.1)
-        rotation = lambda: applyDeadband(self.driver.getRawAxis(self.rotationAxis), 0.1)
+        rotation = lambda: -applyDeadband(self.driver.getRawAxis(self.rotationAxis), 0.1)
         robotcentric = lambda: applyDeadband(self.robotCentric_value, 0.1)
         slow = lambda: applyDeadband(self.driver.getRawAxis(self.slowAxis), 0.1)
+        # slow = lambda: 0.0
 
         self.s_Swerve.setDefaultCommand(
             TeleopSwerve(
@@ -127,7 +130,6 @@ class RobotContainer:
 
         self.fastTurn.whileTrue(InstantCommand(lambda: self.setFastTurn(True))).whileFalse(InstantCommand(lambda: self.setFastTurn(False)))
 
-
     def toggleFieldOriented(self):
         self.robotCentric_value = not self.robotCentric_value
 
@@ -156,8 +158,8 @@ class RobotContainer:
      * @return the command to run in autonomous
     """
     def getAutonomousCommand(self) -> Command:
-        # auto = self.auton_selector.getSelected()
-        auto = None
+        auto = self.auton_selector.getSelected()
+        # auto = None
         return auto
     
     def setFastTurn(self, value: bool):

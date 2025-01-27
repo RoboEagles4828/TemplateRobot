@@ -7,7 +7,7 @@ PURPLE='\033[0;35m'
 NC='\033[0m'
 
 # Check /scripts/config/remote-config for script configuration
-source /workspaces/rift2024/scripts/config/remote-config
+source /workspaces/REPO_NAME/scripts/config/remote-config
 
 smart-deploy() {
     echo "Deploying to $USERNAME@$IP_ADDRESS:$REMOTE_PATH (port $PORT) via rsync..."
@@ -28,12 +28,12 @@ smart-deploy() {
         --exclude rift_debugger \
         --exclude rift_tests \
         --exclude .rsyncmetadata \
-    /workspaces/rift2024/ $USERNAME@$IP_ADDRESS:$REMOTE_PATH \
-        | egrep -v "sending incremental file list" | egrep -v "^\." | awk '{print $2}' | tr ' ' '\n' > /workspaces/rift2024/.rsyncmetadata
+    /workspaces/REPO_NAME/ $USERNAME@$IP_ADDRESS:$REMOTE_PATH \
+        | egrep -v "sending incremental file list" | egrep -v "^\." | awk '{print $2}' | tr ' ' '\n' > /workspaces/REPO_NAME/.rsyncmetadata
     
     echo "Files that will be changed:"
     echo ""
-    printf '%s\n' $(</workspaces/rift2024/.rsyncmetadata)
+    printf '%s\n' $(</workspaces/REPO_NAME/.rsyncmetadata)
     echo ""
 
     read -p "Would you like to sync the files? (y/n) " response
@@ -57,7 +57,7 @@ smart-deploy() {
         --exclude joy \
         --exclude rift_debugger \
         --exclude rift_tests \
-    /workspaces/rift2024/ $USERNAME@$IP_ADDRESS:$REMOTE_PATH
+    /workspaces/REPO_NAME/ $USERNAME@$IP_ADDRESS:$REMOTE_PATH
     echo -e "${GREEN}Done deploying files to remote${NC}"
 }
 
@@ -177,7 +177,7 @@ help() {
 
 case $1 in 
     "config")
-        nano /workspaces/rift2024/scripts/config/remote-config
+        nano /workspaces/REPO_NAME/scripts/config/remote-config
     ;;
 
     "setup")

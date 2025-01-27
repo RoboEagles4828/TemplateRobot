@@ -53,7 +53,7 @@ class COTSTalonFXSwerveConstants:
             # (150 / 7) : 1
             angleGearRatio = ((150.0 / 7.0) / 1.0)
     
-            angleKP = 1.0
+            angleKP = 100.0
             angleKI = 0.0
             angleKD = 0.0
     

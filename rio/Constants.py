@@ -11,36 +11,46 @@ from lib.util.SwerveModuleConstants import SwerveModuleConstants
 import math
 
 from wpimath.units import rotationsToRadians
+from wpimath.system.plant import DCMotor
 
-from pathplannerlib.auto import HolonomicPathFollowerConfig
+from pathplannerlib.controller import PPHolonomicDriveController
 from pathplannerlib.controller import PIDConstants
-from pathplannerlib.config import ReplanningConfig
+from pathplannerlib.config import RobotConfig, ModuleConfig
+# from pathplannerlib.config import ReplanningConfig
 
 class Constants:
     stickDeadband = 0.1
 
     class Swerve:
-        navxID = 0
+        pigeonID = 0
 
-        chosenModule = COTSTalonFXSwerveConstants.MK4i.KrakenX60(COTSTalonFXSwerveConstants.MK4i.driveRatios.L2)
+        chosenModule = COTSTalonFXSwerveConstants.MK4i.KrakenX60(COTSTalonFXSwerveConstants.MK4i.driveRatios.L3)
 
-        # Drivetrain Constants
-        trackWidth = Units.inchesToMeters(20.75)
-        wheelBase = Units.inchesToMeters(20.75)
-        rotationBase = Units.inchesToMeters(31.125 - 5.25)
+        # Drivetrain Constants remember to check this everytime you change chassis
+        trackWidth = Units.inchesToMeters(20.5)
+        wheelBase = Units.inchesToMeters(20.5)
+        # rotationBase = Units.inchesToMeters(12.56)
+        wheelCircumference = wheelCircumference = chosenModule.wheelCircumference
 
         robotWidth = 26.0
         robotLength = 26.0 #if the robot break, understand that raza supplied these numbers and is probably the cause of fault.
 
+        canBus = "Default Name" # Either "canivore", "Default Name", "rio" depending on what you're addressing CAN Ids with
+        phoenixPro = True
 
-        frontOffset = rotationBase - wheelBase
+        # frontOffset = rotationBase - wheelBase
 
-        wheelCircumference = chosenModule.wheelCircumference
+        # wheelCircumference = chosenModule.wheelCircumference
 
-        frontLeftLocation = Translation2d(-((wheelBase / 2.0) - frontOffset), -trackWidth / 2.0)
-        frontRightLocation = Translation2d(-((wheelBase / 2.0) - frontOffset), trackWidth / 2.0)
-        backLeftLocation = Translation2d(wheelBase / 2.0, -trackWidth / 2.0)
-        backRightLocation = Translation2d(wheelBase / 2.0, trackWidth / 2.0)
+        # frontLeftLocation = Translation2d(-((wheelBase / 2.0) - frontOffset), -trackWidth / 2.0)
+        # frontRightLocation = Translation2d(-((wheelBase / 2.0) - frontOffset), trackWidth / 2.0)
+        # backLeftLocation = Translation2d(wheelBase / 2.0, -trackWidth / 2.0)
+        # backRightLocation = Translation2d(wheelBase / 2.0, trackWidth / 2.0)
+
+        frontLeftLocation = Translation2d(wheelBase / 2.0, trackWidth / 2.0)
+        frontRightLocation = Translation2d(wheelBase / 2.0, -trackWidth / 2.0)
+        backLeftLocation = Translation2d(-wheelBase / 2.0, trackWidth / 2.0)
+        backRightLocation = Translation2d(-wheelBase / 2.0, -trackWidth / 2.0)
 
         robotCenterLocation = Translation2d(0.0, 0.0)
 
@@ -64,14 +74,14 @@ class Constants:
 
         # Swerve Current Limiting
         angleCurrentLimit = 25
-        angleCurrentThreshold = 40
-        angleCurrentThresholdTime = 0.1
+        angleCurrentLowerLimit = 40  #previously angleCurrentThreshold
+        angleCurrentLowerTime = 0.1 #angleCurrentThresholdTime
         angleEnableCurrentLimit = True
 
         driveCurrentLimit = 35
-        driveCurrentThreshold = 60
-        driveCurrentThresholdTime = 0.1
-        driveEnableCurrentLimit = True
+        driveCurrentLowerLimit = 60   #previously driveCurrentThreshold
+        driveCurrentLowerTime = 0.1
+        driveEnableCurrentLimit = True #previously driveCurrentThresholdTime
         
         driveStatorCurrentLimit = 130
         driveEnableStatorCurrentLimit = True
@@ -105,14 +115,37 @@ class Constants:
         angleNeutralMode = NeutralModeValue.COAST
         driveNeutralMode = NeutralModeValue.BRAKE
 
-        holonomicPathConfig = HolonomicPathFollowerConfig(
+        holonomicPathConfig = PPHolonomicDriveController(
+            PIDConstants(4.5, 0.0, 0.0),
             PIDConstants(5.0, 0.0, 0.0),
-            PIDConstants(5.0, 0.0, 0.0),
-            maxAutoModuleSpeed,
-            #distance from center to the furthest module
-            Units.inchesToMeters(16),
-            ReplanningConfig(),
+            # maxAutoModuleSpeed,
+            # #distance from center to the furthest module
+            # Units.inchesToMeters(16),
+            0.2
         )
+
+        # moduleConfig = ModuleConfig(
+        #     0.089,
+        #     16.5,
+        #     1.2,
+        #     DCMotor.krakenX60FOC(),
+        #     60.0,
+        #     1
+        # )
+        
+
+    #     robotConfig = RobotConfig(
+    #         52.1631,
+    #         6.490,
+    #         moduleConfig,
+    #         None,
+    #         0.576,
+    #   )
+
+        robotConfig = RobotConfig.fromGUISettings()
+
+
+        
 
         # Slowdown speed
         ## The speed is multiplied by this value when the trigger is fully held down
@@ -122,40 +155,45 @@ class Constants:
         # Module Specific Constants
         # Front Left Module - Module 0
         class Mod0:
-            driveMotorID = 2
-            angleMotorID = 1
-            canCoderID = 3
+            driveMotorID = 1
+            angleMotorID = 3    
+            canCoderID = 2
             # angleOffset = Rotation2d(rotationsToRadians(-0.354492))
-            angleOffset = Rotation2d(rotationsToRadians(-0.349121))
+            # angleOffset = Rotation2d(rotationsToRadians(-0.349121)) jdjdjd
+            angleOffset = Rotation2d(rotationsToRadians(-0.098633))
                 # angleOffset = Rotation2d(rotationsToRadians(-0.352051))
+
             constants = SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset)
 
         # Front Right Module - Module 1
         class Mod1:
-            driveMotorID = 19
-            angleMotorID = 18
-            canCoderID = 20
-            angleOffset = Rotation2d(rotationsToRadians(-0.2320910))
+            driveMotorID = 10
+            angleMotorID = 12
+            canCoderID = 11
+            # angleOffset = Rotation2d(rotationsToRadians(-0.2320910)) jsajsjs
             # angleOffset = Rotation2d(rotationsToRadians(-0.233887))
+            angleOffset = Rotation2d(rotationsToRadians(0.442627))
             constants = SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset)
         
         # Back Left Module - Module 2
         class Mod2:
-            driveMotorID = 9
-            angleMotorID = 8
-            canCoderID = 7
+            driveMotorID = 4
+            angleMotorID = 6
+            canCoderID = 5
             # angleOffset = Rotation2d(rotationsToRadians(0.148193))
-            angleOffset = Rotation2d(rotationsToRadians(0.175781))
+            # angleOffset = Rotation2d(rotationsToRadians(0.175781))
+            angleOffset = Rotation2d(rotationsToRadians(-.374023))
             # angleOffset = Rotation2d(rotationsToRadians(0.155762))
             constants = SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset)
 
         # Back Right Module - Module 3
         class Mod3:
-            driveMotorID = 12
-            angleMotorID = 11
-            canCoderID = 10
-            angleOffset = Rotation2d(rotationsToRadians(0.068359))
+            driveMotorID = 7
+            angleMotorID = 9
+            canCoderID = 8
+            # angleOffset = Rotation2d(rotationsToRadians(0.068359))
             # angleOffset = Rotation2d(rotationsToRadians(0.063232))
+            angleOffset = Rotation2d(rotationsToRadians(-0.040527))
             constants = SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset)
 
     class AutoConstants:
@@ -179,3 +217,5 @@ class Constants:
         singleTagXY = 0.03
         multiTagXY = 0.05
         tagRot = math.radians(40.0)
+
+    

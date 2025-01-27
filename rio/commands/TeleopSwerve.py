@@ -12,14 +12,14 @@ from wpimath.controller import PIDController
 
 
 class TeleopSwerve(Command):    
-    s_Swerve: Swerve  
+    s_Swerve: Swerve
     translationSup: Callable[[], float]
     strafeSup: Callable[[], float]
     rotationSup: Callable[[], float]
     robotCentricSup: Callable[[], bool]
     slowSup: Callable[[], list[float]]
 
-    def __init__(self, s_Swerve, translationSup, strafeSup, rotationSup, robotCentricSup, slowSup=lambda: 0.0):
+    def __init__(self, s_Swerve : Swerve, translationSup, strafeSup, rotationSup, robotCentricSup, slowSup=lambda: 0.0):
         self.s_Swerve: Swerve = s_Swerve
         self.addRequirements(s_Swerve)
 

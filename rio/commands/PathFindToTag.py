@@ -38,13 +38,13 @@ class PathFindToTag(SequentialCommandGroup):
             Rotation3d(0.0, 0.0, robotToPose2d.rotation().radians())
         )
 
-        result = self.vision.getCamera().getLatestResult()
+        resultFrontLeft = self.vision.getFrontLeftCamera().getLatestResult()
 
-        if result.hasTargets() == False:
+        if resultFrontLeft.hasTargets() == False:
             return InstantCommand()
         else:
             try:
-                allTargets = result.getTargets()
+                allTargets = resultFrontLeft.getTargets()
                 for target in allTargets:
                     if target.getFiducialId() == self.TAG_ID:
                         self.targetToUse = target
@@ -53,7 +53,7 @@ class PathFindToTag(SequentialCommandGroup):
                     return InstantCommand()
                 
                 camToTarget = self.targetToUse.getBestCameraToTarget()
-                cameraPose = robotToPose3d.transformBy(self.vision.robotToCamera)
+                cameraPose = robotToPose3d.transformBy(self.vision.robotToFrontLeftCamera)
                 targetPose = cameraPose.transformBy(camToTarget)
                 goalPose = targetPose.transformBy(self.TAG_TO_GOAL).toPose2d()
 

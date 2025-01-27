@@ -18,7 +18,7 @@
                 <geometry>
                     <mesh filename="package://repo_name_description/meshes/SwerveChassis.stl" />
                 </geometry>
-                <material name="ghost"/>
+                <material name="red"/>
             </visual>
             <collision>
                 <origin xyz="0 0 ${chassis_height/2}" rpy="0 0 0" />

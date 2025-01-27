@@ -24,7 +24,7 @@ apply() {
     fi
 
     docker run --rm -it \
-        -v $HOME/rift2024:/opt/workspace:rw \
+        -v $HOME/REPO_NAME:/opt/workspace:rw \
         --user admin \
         --entrypoint /opt/workspace/scripts/remote-rebuild \
         ghcr.io/roboeagles4828/jetson:3 build $packages
@@ -33,7 +33,7 @@ apply() {
 
 build() {
     packages=$@
-    source /opt/ros/humble/setup.bash
+    source /opt/ros/jazzy/setup.bash
     cd /opt/workspace
     colcon build --symlink-install --paths src/* --packages-select $@
 }

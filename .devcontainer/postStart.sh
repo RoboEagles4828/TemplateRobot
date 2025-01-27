@@ -6,7 +6,7 @@ NC='\033[0m'
 
 # Change permissions on any joystick devices
 sudo chmod a+rw /dev/input/js*
-source /opt/ros/humble/setup.bash
+source /opt/ros/jazzy/setup.bash
 
 # echo -e "\n----JOYSTICKS CONNECTED----"
 # ros2 run joy joy_enumerate_devices

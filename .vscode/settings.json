@@ -1,19 +1,19 @@
 {
-    "ros.distro": "humble",
+    "ros.distro": "jazzy",
     "filewatcher.commands": [
         {
             "match": "\\.xacro*$",
             "isAsync": true,
-            "cmd": "/bin/bash -c 'source /opt/ros/humble/setup.sh && source ${workspaceRoot}/install/setup.bash && xacro ${workspaceRoot}/src/repo_name_description/urdf/robot.urdf.xacro > ${workspaceRoot}/src/repo_name_description/urdf/robot.urdf namespace:=$ROS_NAMESPACE'",
+            "cmd": "/bin/bash -c 'source /opt/ros/jazzy/setup.sh && source ${workspaceRoot}/install/setup.bash && xacro ${workspaceRoot}/src/repo_name_description/urdf/robot.urdf.xacro > ${workspaceRoot}/src/repo_name_description/urdf/robot.urdf namespace:=$ROS_NAMESPACE'",
             "event": "onFileChange"
         }
     ],
     "python.autoComplete.extraPaths": [
-        "/opt/ros/humble/lib/python3.10/site-packages",
-        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+        "/opt/ros/jazzy/lib/python3.10/site-packages",
+        "/opt/ros/jazzy/local/lib/python3.10/dist-packages"
     ],
     "python.analysis.extraPaths": [
-        "/opt/ros/humble/lib/python3.10/site-packages",
-        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+        "/opt/ros/jazzy/lib/python3.10/site-packages",
+        "/opt/ros/jazzy/local/lib/python3.10/dist-packages"
     ]
 }
