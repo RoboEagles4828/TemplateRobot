@@ -9,9 +9,9 @@ echo "echo -e 'No install folder found remember to build with ctrl + shift + b\n
 echo "else source /workspaces/REPO_NAME/install/setup.zsh; fi" >> ~/.zshrc
 echo "export ROS_DISTRO=jazzy" >> ~/.zshrc
 echo "export RCUTILS_COLORIZED_OUTPUT=1" >> ~/.zshrc
+echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.zshrc
 echo 'complete -o nospace -o default -F _python_argcomplete "ros2"' >> ~/.zshrc
 echo 'alias python="python3"' >> ~/.zshrc
-
 
 # Update apt list and rosdep
 # Skipping since this will be done recently in docker file
