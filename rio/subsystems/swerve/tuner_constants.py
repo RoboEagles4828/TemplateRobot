@@ -1,5 +1,5 @@
 from phoenix6 import CANBus, configs, hardware, signals, swerve, units
-from command_swerve_drivetrain import CommandSwerveDrivetrain
+from subsystems.swerve.command_swerve_drivetrain import CommandSwerveDrivetrain
 from wpimath.units import inchesToMeters
 
 

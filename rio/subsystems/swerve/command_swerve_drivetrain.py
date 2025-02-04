@@ -9,7 +9,7 @@ from wpimath.geometry import Rotation2d, Pose2d, Translation2d
 from wpimath.units import degreesToRadians
 from wpimath.kinematics import ChassisSpeeds
 from pathplannerlib.auto import AutoBuilder
-from auto_constants import AutoConstants
+from auto.auto_constants import AutoConstants
 # from generated.tuner_constants import TunerConstants
 
 
